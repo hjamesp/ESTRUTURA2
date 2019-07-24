@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define tamanho 100
+#define E 0
+#define D 1
+#define R -1
+
+//Por exemplo, considere que seu RA é igual a 57231869. Abaixo temos um exemplo de como 
+//sua árvore ordenada deveria ser, bem como o resultado do caminhamento em-ordem quando 
+//executado a partir da raiz da respectiva árvore.
+
+struct str_no{
+	char dado;
+	int esquerda;
+	int direita;
+	int pai;
+} str_no;
+
+struct str_no arvore [tamanho];
+int lado, indice = 0;
+int opt = -1;
+char pai, no;
+
+void arvore_insere(int pai, char dado, int lado);
+int arvore_procura(char dado);
+void menu_mostrar(void);
+
+int emOrdem(int n){
+    if (n != -1){
+    emOrdem(arvore[n].esquerda);
+    printf("%d ", arvore[n].dado); 
+    emOrdem(arvore[n].direita);
+    return (1);
+    }
+ return (0);
+}
+
+int main(void){
+	printf("\nBRUNO VINICIO ARAUJO DO CARMO - SALVADOR/BA\n");
+	printf("\nMAPA - ESTRUTURA DE DADOS 2\n\n");
+	printf("Meu R.A.: 16016075\n\n");	
+	printf("Meu R.A. dado atraves do percurso em ordem: ");
+	int temp;
+	arvore_insere(-1,1,R);      
+   	temp = arvore_procura(0);
+   	arvore_insere(0,6,D);
+   	temp = arvore_procura(1);
+   	arvore_insere(0,0,E);        
+   	temp = arvore_procura(2);
+   	arvore_insere(1,6,D);        
+   	temp = arvore_procura(3);
+   	arvore_insere(1,1,E);        
+   	temp = arvore_procura(4);
+  	arvore_insere(2,0,D);        
+   	temp = arvore_procura(5);
+   	arvore_insere(3,7,D);        
+   	temp = arvore_procura(6);
+   	arvore_insere(4,5,D);  
+   	temp = arvore_procura(7);
+   	emOrdem(0);
+   	system("pause"); 
+  return(0);
+}
+void arvore_insere(int pai, char dado, int lado){
+	switch (lado){
+		case E:
+			arvore [pai].esquerda = indice;
+			arvore [indice].dado = dado;
+			arvore [indice].pai = pai;
+			arvore [indice].esquerda = -1;
+			arvore [indice].direita = -1;
+			indice++;
+		break;
+		case D:
+			arvore [pai].direita = indice;
+			arvore [indice].dado = dado;
+			arvore [indice].pai = pai;
+			arvore [indice].esquerda = -1;
+			arvore [indice].direita = -1;
+			indice++;
+		break;
+		case R:
+			arvore [indice].dado = dado;
+			arvore [indice].pai = -1;
+			arvore [indice].esquerda = -1;
+			arvore [indice].direita = -1;
+			indice++;
+		break;
+	}
+}
+
+int arvore_procura(char dado){
+	int i;
+	if (indice !=0){
+		for (i=0; i<indice; i++){
+			if (arvore[i].dado==dado){
+				return(i);
+			}
+		}
+	} else {
+		return(0);
+	}
+}
+
